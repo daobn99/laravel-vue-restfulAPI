@@ -1,0 +1,73 @@
+{
+  "name": "laravel-vue-restfulAPI",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "stopCompose",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // PHP/Laravel extensions
+        "bmewburn.vscode-intelephense-client",
+        "amiralizadeh9480.laravel-extra-intellisense",
+        "onecentlin.laravel-blade",
+        "mikestead.dotenv",
+        "shufo.vscode-blade-formatter",
+        // "codingyu.laravel-goto-view",
+        "ryannaddy.laravel-artisan",
+        "MehediDracula.php-namespace-resolver",
+        "xdebug.php-debug",
+        // Frontend extensions
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "editorconfig.editorconfig",
+        "bradlc.vscode-tailwindcss",
+        "vue.volar",
+        "yoavbls.pretty-ts-errors",
+        // General
+        "mhutchie.git-graph",
+        "cweijan.vscode-mysql-client2"
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "[php]": {
+          "editor.defaultFormatter": "bmewburn.vscode-intelephense-client"
+        },
+        "[blade]": {
+          "editor.defaultFormatter": "shufo.vscode-blade-formatter"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[javascriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "typescript.tsdk": "node_modules/typescript/lib",
+        "typescript.enablePromptUseWorkspaceTsdk": true
+      }
+    }
+  },
+
+  "forwardPorts": [8000, 5173, 6379],
+  "portsAttributes": {
+    "8000": {
+      "label": "Laravel Backend"
+    },
+    "5173": {
+      "label": "Vite Frontend"
+    }
+    // "6379": {
+    //   "label": "Redis"
+    // }
+  },
+  //   "postCreateCommand": "curl -fsSL https://claude.ai/install.sh | bash && echo 'export PATH=\"$HOME/.local/bin:$PATH\"' >> ~/.bashrc && source ~/.bashrc",
+  "remoteUser": "vscode"
+}
