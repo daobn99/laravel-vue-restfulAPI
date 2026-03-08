@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 
 class PostController extends Controller
@@ -13,7 +14,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return response()->json($posts);
+        return PostResource::collection($posts);
     }
 
     /**
@@ -23,34 +24,32 @@ class PostController extends Controller
     {
         $validated = $request->safe()->only('title', 'content');
         $post = Post::create($validated);
-        return response()->json($post, 201);
+        return new PostResource($post); // hoặc dùng $post->toResource();
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    // laravel có cơ chế Route Model Binding (https://laravel.com/docs/12.x/routing#route-model-binding). Không cần truyền id rồi từ id query database rồi mới show. Truyền trực tiếp param là object luôn
+    public function show(Post $post)
     {
-        $post = Post::findOrFail($id);
-        return response()->json($post);
+        return new PostResource($post);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StorePostRequest $request, $id)
+    public function update(StorePostRequest $request, Post $post)
     {
-        $post = Post::findOrFail($id);
         $post->update($request->validated());
-        return response()->json($post);
+        return new PostResource($post);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::findOrFail($id);
         $post->delete();
         return response()->noContent();
     }
