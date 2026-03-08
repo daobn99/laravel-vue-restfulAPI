@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\TaskService;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -17,9 +18,11 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tasks = $this->taskService->paginate();
+        // only() lấy dữ liệu từ request chỉ trả về mảng gồm 2 field là status và priority
+        $filters = $request->only(['title', 'status', 'priority']);
+        $tasks = $this->taskService->paginate($filters);
         return TaskResource::collection($tasks);
     }
 
