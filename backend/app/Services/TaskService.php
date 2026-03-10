@@ -30,6 +30,7 @@ class TaskService
     //     // latest() = order by created_at DESC
     //     return $query->latest()->paginate($perPage);
     // }
+    private const ALLOWED_SORTS = ['created_at', 'priority', 'title', 'status'];
 
     public function paginate(array $filters = [], int $perPage = 10, string $sort = '-created_at')
     {
@@ -37,8 +38,7 @@ class TaskService
         $column = ltrim($sort, '-');
 
         // whitelist sort
-        $allowedSorts = ['created_at', 'priority', 'title', 'status'];
-        if (!in_array($column, $allowedSorts)) {
+        if (!in_array($column, self::ALLOWED_SORTS, true)) {
             $column = 'created_at';
         }
 
