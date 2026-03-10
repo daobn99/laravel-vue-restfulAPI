@@ -31,13 +31,22 @@ class TaskService
     //     return $query->latest()->paginate($perPage);
     // }
 
-    public function paginate(array $filters = [], int $perPage = 10)
+    public function paginate(array $filters = [], int $perPage = 10, string $sort = '-created_at')
     {
+        $direction = str_starts_with($sort, '-') ? 'desc' : 'asc';
+        $column = ltrim($sort, '-');
+
+        // whitelist sort
+        $allowedSorts = ['created_at', 'priority', 'title', 'status'];
+        if (!in_array($column, $allowedSorts)) {
+            $column = 'created_at';
+        }
+
         return Task::query()
             ->when($filters['status'] ?? null, fn($q, $status) => $q->where('status', $status))
             ->when($filters['priority'] ?? null, fn($q, $priority) => $q->where('priority', $priority))
             ->when($filters['title'] ?? null, fn($q, $title) => $q->where('title', 'like', "%{$title}%"))
-            ->latest()
+            ->orderBy($column, $direction)
             ->paginate($perPage);
     }
 

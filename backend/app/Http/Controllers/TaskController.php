@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\TaskIndexRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Services\TaskService;
-use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -18,11 +18,13 @@ class TaskController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(TaskIndexRequest $request)
     {
         // only() lấy dữ liệu từ request chỉ trả về mảng gồm 2 field là status và priority
         $filters = $request->only(['title', 'status', 'priority']);
-        $tasks = $this->taskService->paginate($filters);
+        $perPage = $request->integer('per_page', 10);
+        $sort = $request->query('sort', '-created_at');
+        $tasks = $this->taskService->paginate($filters, $perPage, $sort);
         return TaskResource::collection($tasks);
     }
 
