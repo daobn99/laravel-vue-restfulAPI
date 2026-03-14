@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
     protected $fillable = [
+        'project_id',
         'title',
         'description',
         'status',
@@ -20,4 +21,14 @@ class Task extends Model
         'status' => TaskStatus::class,
         'priority' => TaskPriority::class,
     ];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }
