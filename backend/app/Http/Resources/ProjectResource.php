@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TaskResource extends JsonResource
+class ProjectResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,13 +16,10 @@ class TaskResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'name' => $this->name,
             'description' => $this->description,
-            'status' => $this->status,
-            'priority' => $this->priority,
-            'due_date' => $this->due_date,
             'created_at' => $this->created_at,
-            'project' => ProjectResource::make($this->whenLoaded('project'))
+            'user' => UserResource::make($this->whenLoaded('user'))
         ];
     }
 }

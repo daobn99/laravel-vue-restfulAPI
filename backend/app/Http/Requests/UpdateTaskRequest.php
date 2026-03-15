@@ -29,7 +29,8 @@ class UpdateTaskRequest extends FormRequest
             'description' => ['nullable', 'string'],
             'status' => ['sometimes', new Enum(TaskStatus::class)],
             'priority' => ['sometimes', new Enum(TaskPriority::class)],
-            'due_date' => ['nullable', 'date']
+            'due_date' => ['nullable', 'date'],
+            'project_id' => ['sometimes', 'exists:projects,id']
         ];
     }
 }

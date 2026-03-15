@@ -47,6 +47,7 @@ class TaskService
             ->when($filters['priority'] ?? null, fn($q, $priority) => $q->where('priority', $priority))
             ->when($filters['title'] ?? null, fn($q, $title) => $q->where('title', 'like', "%{$title}%"))
             ->orderBy($column, $direction)
+            ->with('project.user')
             ->paginate($perPage);
     }
 

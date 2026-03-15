@@ -11,6 +11,8 @@ use App\Services\TaskService;
 
 class TaskController extends Controller
 {
+    private const RELATIONS_PROJECT = 'project.user';
+
     public function __construct(
         protected TaskService $taskService
     ) {}
@@ -35,6 +37,7 @@ class TaskController extends Controller
     {
         // validated() tự động lấy dữ liệu đã được xác thực từ request, đảm bảo rằng chỉ những dữ liệu hợp lệ mới được sử dụng để tạo task mới.
         $task = $this->taskService->create($request->validated());
+        $task->load(self::RELATIONS_PROJECT);
         return new TaskResource($task);
     }
 
@@ -43,6 +46,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
+        $task->load(self::RELATIONS_PROJECT);
         return new TaskResource($task);
     }
 
@@ -52,6 +56,7 @@ class TaskController extends Controller
     public function update(UpdateTaskRequest $request, Task $task)
     {
         $task = $this->taskService->update($task, $request->validated());
+        $task->load(self::RELATIONS_PROJECT);
         return new TaskResource($task);
     }
 
