@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TaskPriority;
+use App\Enums\TaskStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class TaskIndexRequest extends FormRequest
 {
@@ -22,9 +25,9 @@ class TaskIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['sometimes', 'string'],
-            'priority' => ['sometimes', 'string'],
             'title' => ['sometimes', 'string'],
+            'priority' => ['sometimes', new Enum(TaskPriority::class)],
+            'status' => ['sometimes', new Enum(TaskStatus::class)],
             'per_page' => ['sometimes', 'integer', 'min:1', 'max:100'],
             'sort' => ['sometimes', 'string']
         ];
