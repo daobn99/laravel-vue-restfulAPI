@@ -55,7 +55,9 @@
       }
     }
   },
-
+  "mounts": [
+    "source=${localWorkspaceFolder}/.devcontainer/php/xdebug.ini,target=/usr/local/etc/php/conf.d/xdebug.ini,type=bind"
+  ],
   "forwardPorts": [8000, 5173, 6379],
   "portsAttributes": {
     "8000": {

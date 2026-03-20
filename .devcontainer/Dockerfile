@@ -13,7 +13,10 @@ RUN apt-get update && apt-get install -y \
     ca-certificates \
     gnupg \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
-
+# Cài xdebug
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+    
 # Cài đặt Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
